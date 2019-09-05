@@ -62,7 +62,7 @@
 					ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 				<br><button class="btn btn-default btn-lg">Get in Touch</button>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-4" style="text-align:center;">
 				<span class="glyphicon glyphicon-globe logo slideanim" style="color: green;"></span>
 			</div>
 		</div>
