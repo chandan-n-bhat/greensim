@@ -42,7 +42,7 @@
 			</div>
 		</div>
 	</nav>
-
+	
 	<div class="jumbotron text-center">
 		<h1>GreenSim</h1>
 		<p>We specialize in Cloud Sim</p>
@@ -128,38 +128,35 @@
 			</div>
 
 			<div class="col-sm-8" style="padding-top:8px;">
+				<div class="tab">
+					<button class="tablinks" onclick="openTab(event, 'console_output')"
+						id="defaultOpen">Console</button>
+					<button class="tablinks conf">Conf</button>
+				</div>
 
-				<ul class="nav nav-tabs">
-					<li class="nav-item">
-						<a class="nav-link active" id='console'>Console</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-							aria-haspopup="true" aria-expanded="false">Conf</a>
-						<div class="dropdown-menu">
-							<?php
-								if(isset($conf)){
+				<div id="console_output" class="tabcontent" style="height:375px;max-height:375px;overflow-y:auto;">
+					<div class="container">
+						<?php
+						if(isset($file1)){
+							echo "<pre style=\"background-color:#000; color:#c3c3c3;\">";
+							echo nl2br($file1);
+							echo "</pre>";
+						}
+						?>
+					</div>
+				</div>
 
-									for($i = 1;$i < count($conf)-1 ; $i++){
-										echo "<a class='dropdown-item' id='conf".$i."'>Conf".$i."</a><br>";
-									}
-								}
-							?>
-						</div>
-					</li>
-				</ul>
-
-				<div class="output">
-					<div class="container"></div>
-
+				<div id="conf_output" class="tabcontent testfont" style="">
+					<?php
+						if(isset($conf)){
+							$confout = file_get_contents($conf);
+							$confout = nl2br($confout);
+							echo $confout;
+						}
+					?>
 				</div>
 			</div>
-
 		</div>
-
-
-
-	</div>
 	</div>
 
 	<!-- Container (Contact Section) -->
@@ -221,24 +218,49 @@
 			});
 		})
 
-		$('#console').click(function () {
-			$('.output').html(
-				<?php
-					if (isset($file1)) {
-						//echo "'<pre>'";
-						//echo nl2br($file1);
-						echo "sdfdfsdfdsfdfsgfghgfhhjkjhjcsdkjfbdshfbdjvhbfdjhvbjhvfjvdfbvj";
-						//echo "'</pre>'";
-					}
-				?>
-			);
-		});
+		function openTab(evt, output) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			document.getElementById(output).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
 
-		$(document).ready(function () {
-			$('.output').html("adskjsfbdsjfbjdfhbdjhfbdjfhbdfjdshbfjdsfhb")
-		});
+		// Get the element with id="defaultOpen" and click on it
+		document.getElementById("defaultOpen").click();
 
+		$(document).ready(function(){
+			$('.conf').onclick(function(e){
+				e.preventDefault();
+				var btn = 'button';
+
+				swal({
+					title: "HTML <small>Select the conf file</small>",
+					text: '<button type="'+btn+'" id="conf1"> Conf1 </button>' + '<button type="'+btn+'" id="conf2"> Conf2 </button>',
+					html: true
+				},function(idd){
+					$("#conf1").click(function(){
+						alert(this.id);
+					});
+
+					$("#conf2").click(function(){
+						alert(this.id);
+					});
+
+					$("#conf3").click(function(){
+						alert(this.id);
+					});
+				})
+			})
+		})
 	</script>
+
 </body>
 
 </html>
