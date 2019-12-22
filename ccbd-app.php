@@ -118,7 +118,7 @@ include('server.php');
 						<input id="foldername" type="text" class="form-control" name="foldername">
 						<hr />
 						<label for="file3">File 3 : workload </label><br>
-						<input id="file3" type="file" class="form-control" webkitdirectory="" directory="" name="file3">
+						<input id="file3" type="file" class="form-control" webkitdirectory="" directory="" multiple="" name="load[]">
 					</div>
 
 					<button type="submit" id="submit-btn" name="submit">Submit</button>
@@ -130,19 +130,18 @@ include('server.php');
 
 				<ul class="nav nav-tabs nav2">
 					<li class="nav-item">
-						<a class="nav-link active" id='console'>Console</a>
+						<a class="nav-link active tablink" id='console'>Console</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Conf</a>
 						<div class="dropdown-menu">
 							<?php
 								if(isset($conf)){
-									echo var_dump($conf);
+									//echo var_dump($conf);
 									$conf_arr = explode(",",$conf);
-									$conf_arr = array_slice($conf_arr,1,-1);
-									echo var_dump($conf_arr);
-									for($i=1;$i<count($conf_arr)-1;$i++){
-										echo "<a class='dropdown-item' id='conf".$i."'>Conf".$i."</a><br>";
+									//echo var_dump($conf_arr);
+									for($i=1;$i<sizeof($conf_arr)-1;$i++){
+										echo "<a class='dropdown-item tablink' id='conf"."$i"."'>Conf".$i."</a><br>";
 									}
 								}
 							?>
@@ -150,7 +149,7 @@ include('server.php');
 					</li>
 				</ul>
 
-				<div class="output console">
+				<div class="output console" id="outconsole">
 
 					<?php
 						if(isset($file1)){
@@ -158,14 +157,19 @@ include('server.php');
 							echo nl2br($file1);
 							echo "</pre>";
 						}
+						else{
+							echo "<pre style=\"background-color:#000; color:#c3c3c3;\">";
+							echo "Upload files first.";
+							echo "</pre>";
+						}
 					?>
 
 				</div>
 
 				<?php
-					for($i=1; $i < count($conf_arr)-1; $i++){		
+					for($i=1; $i < sizeof($conf_arr)-1; $i++){		
 				?>		
-					<div class="output console" id="<?php echo 'conf'.'$i'?>">
+					<div class="output" id="<?php echo 'outconf'.$i?>">
 					
 						<?php
 							if(isset($conf_arr[$i])){
@@ -245,15 +249,15 @@ include('server.php');
 				});
 			});
 		})
-		<?php
-
-		?>
-		$('#console').click(function() {
-			
+		$('.tablink').click(function(event) {
+			//console.log(event.target.id);
+			$('.output').hide();
+			var id = '#out'.concat(event.target.id);
+			$(id).show();
 		});
 
 		$(document).ready(function() {
-			$('.output').html('Upload Files first');
+			$('#outconsole').show();
 		});
 	</script>
 </body>

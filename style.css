@@ -138,6 +138,7 @@ footer .glyphicon {
 }
 
 .output {
+	display: none;
 	height: 390px;
 	max-height: 390px;
 	overflow-y: auto;

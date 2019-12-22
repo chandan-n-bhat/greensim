@@ -22,7 +22,7 @@ function execCommand($option,$name,$out,$conf='',$workload=''){
 		$command = 'java -jar '.$name.' '.$conf. ' > uploads/'.$out;
 	}
 	if($option === 3){
-		$command = 'java -jar '.$name.' '.$conf. $work.' '.' > uploads/'.$out;
+		$command = 'java -jar '.$name.' '.$conf. $workload.' '.' > uploads/'.$out;
 	}
 	exec($command);
 }
@@ -71,15 +71,17 @@ if(isset($_POST['submit']))
 			}
 			else
 			{
-				$foldername = $_POST["foldername"];
+				$foldername = 'uploads/' . $_POST["foldername"];
+				var_dump($foldername);
 				if(!is_dir($foldername))
 				{
 					mkdir($foldername);
 				}
-				foreach ($_FILES['file3']['name'] as $key => $value) {
-					if(strlen($_FILES['file3']['name'][$key]) > 1)
+				var_dump($_FILES['load']);
+				foreach ($_FILES['load']['name'] as $key => $value) {
+					if(strlen($_FILES['load']['name'][$key]) > 1)
 					{
-						move_uploaded_file($_FILES['file3']['tmp_name'][$key], 'uploads/'.$foldername.'/'.$name);
+						move_uploaded_file($_FILES['load']['tmp_name'][$key], $foldername.'/'.$value);
 					}
 				}
 				if(!empty(array_filter($_FILES['files']['name'])))
@@ -94,9 +96,9 @@ if(isset($_POST['submit']))
 		            	// Set upload file path
 		            	$filepath = 'uploads/'.$ts.$file_name;
 						move_uploaded_file($file_tmpname, $filepath);
-						$conf = $conf + $filepath + ',';
+						$conf = $conf . $filepath . ',';
 					}
-					$conf = $conf + "end]";
+					$conf = $conf . "end]";
 					$workload = 'uploads/'.$ts.$foldername;
 					execCommand(3,$name,$out,$conf,$workload);
 				}
