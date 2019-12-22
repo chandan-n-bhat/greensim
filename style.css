@@ -148,3 +148,12 @@ footer .glyphicon {
 	padding-left: 10px;
 	padding-right: 10px;
 }
+
+.nav2 {
+	background: #c3c3c3;
+	color: #000000;
+}
+
+.nav2 .nav-item .nav-link {
+	color: #000000;
+}

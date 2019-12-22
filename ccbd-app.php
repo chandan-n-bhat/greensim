@@ -1,5 +1,5 @@
 <?php
-	include('server.php');
+include('server.php');
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +34,10 @@
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#about">ABOUT</a></li>
-					<li><a href="#services">SERVICES</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#services">Services</a></li>
 					<li><a href="#greensimtool">GreenSim Tool</a></li>
-					<li><a href="#contact">CONTACT</a></li>
+					<li><a href="#contact">Contact</a></li>
 				</ul>
 			</div>
 		</div>
@@ -64,7 +64,7 @@
 					ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 				<br><button class="btn btn-default btn-lg">Get in Touch</button>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-4" style="text-align:center">
 				<span class="glyphicon glyphicon-globe logo slideanim" style="color: green;"></span>
 			</div>
 		</div>
@@ -101,8 +101,7 @@
 		<h2>GreenSim Tool</h2>
 		<div class="row text-center slideanim">
 			<div class="col-sm-4 ">
-				<form action="ccbd-app.php#greensimtool" method="POST" enctype="multipart/form-data"
-					style="text-align:left;padding:15px;">
+				<form action="ccbd-app.php#greensimtool" method="POST" enctype="multipart/form-data" style="text-align:left;padding:15px;">
 
 					<div class="form-group">
 						<label for="file1">File1 : Application</label>
@@ -129,18 +128,20 @@
 
 			<div class="col-sm-8" style="padding-top:8px;">
 
-				<ul class="nav nav-tabs">
+				<ul class="nav nav-tabs nav2">
 					<li class="nav-item">
 						<a class="nav-link active" id='console'>Console</a>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-							aria-haspopup="true" aria-expanded="false">Conf</a>
+						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Conf</a>
 						<div class="dropdown-menu">
 							<?php
 								if(isset($conf)){
-
-									for($i = 1;$i < count($conf)-1 ; $i++){
+									echo var_dump($conf);
+									$conf_arr = explode(",",$conf);
+									$conf_arr = array_slice($conf_arr,1,-1);
+									echo var_dump($conf_arr);
+									for($i=1;$i<count($conf_arr)-1;$i++){
 										echo "<a class='dropdown-item' id='conf".$i."'>Conf".$i."</a><br>";
 									}
 								}
@@ -149,22 +150,46 @@
 					</li>
 				</ul>
 
-				<div class="output">
-					<div class="container"></div>
+				<div class="output console">
+
+					<?php
+						if(isset($file1)){
+							echo "<pre style=\"background-color:#000; color:#c3c3c3;\">";
+							echo nl2br($file1);
+							echo "</pre>";
+						}
+					?>
 
 				</div>
+
+				<?php
+					for($i=1; $i < count($conf_arr)-1; $i++){		
+				?>		
+					<div class="output console" id="<?php echo 'conf'.'$i'?>">
+					
+						<?php
+							if(isset($conf_arr[$i])){
+								echo "<pre style=\"background-color:#000; color:#c3c3c3;\">";
+								$c = file_get_contents($conf_arr[$i]);
+								echo "$c";
+								echo "</pre>";
+							}
+						?>
+
+					</div>
+				<?php
+					}
+				?>
+
 			</div>
 
 		</div>
 
-
-
-	</div>
 	</div>
 
 	<!-- Container (Contact Section) -->
 	<div id="contact" class="container-fluid text-center bg-grey">
-		<h2 class="text-center">CONTACT</h2>
+		<h2 class="text-center">Contact</h2>
 		<div class="row">
 			<div class="col-sm-12">
 				<p>Contact us and we'll get back to you within 24 hours.</p>
@@ -186,9 +211,9 @@
 	</footer>
 
 	<script>
-		$(document).ready(function () {
+		$(document).ready(function() {
 			// Add smooth scrolling to all links in navbar + footer link
-			$(".navbar a, footer a[href='#myPage']").on('click', function (event) {
+			$(".navbar a, footer a[href='#myPage']").on('click', function(event) {
 				// Make sure this.hash has a value before overriding default behavior
 				if (this.hash !== "") {
 					// Prevent default anchor click behavior
@@ -201,7 +226,7 @@
 					// The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
 					$('html, body').animate({
 						scrollTop: $(hash).offset().top
-					}, 900, function () {
+					}, 900, function() {
 
 						// Add hash (#) to URL when done scrolling (default click behavior)
 						window.location.hash = hash;
@@ -209,8 +234,8 @@
 				} // End if
 			});
 
-			$(window).scroll(function () {
-				$(".slideanim").each(function () {
+			$(window).scroll(function() {
+				$(".slideanim").each(function() {
 					var pos = $(this).offset().top;
 
 					var winTop = $(window).scrollTop();
@@ -220,24 +245,16 @@
 				});
 			});
 		})
+		<?php
 
-		$('#console').click(function () {
-			$('.output').html(
-				<?php
-					if (isset($file1)) {
-						//echo "'<pre>'";
-						//echo nl2br($file1);
-						echo "sdfdfsdfdsfdfsgfghgfhhjkjhjcsdkjfbdshfbdjvhbfdjhvbjhvfjvdfbvj";
-						//echo "'</pre>'";
-					}
-				?>
-			);
+		?>
+		$('#console').click(function() {
+			
 		});
 
-		$(document).ready(function () {
-			$('.output').html("adskjsfbdsjfbjdfhbdjhfbdjfhbdfjdshbfjdsfhb")
+		$(document).ready(function() {
+			$('.output').html('Upload Files first');
 		});
-
 	</script>
 </body>
 
