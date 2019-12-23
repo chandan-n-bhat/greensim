@@ -135,7 +135,16 @@ footer .glyphicon {
 
 .dropdown-item {
 	text-align: center;
+	text-decoration: none;
+	font-family: Montserrat, sans-serif;
+	color: #000000;
 }
+
+/* .dropdown-menu a {
+	color: #000000;
+	background: #c3c3c3;
+
+} */
 
 .output {
 	display: none;
